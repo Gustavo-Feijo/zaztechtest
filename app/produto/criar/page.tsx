@@ -24,8 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaTrash } from "react-icons/fa6";
-import { cn } from "@/lib/utils";
+import { Categorias } from "@prisma/client";
 //Schema com Zod para validação do forms.
 const formSchema = z.object({
   // String referente ao nome do produto cadastrado.
@@ -96,14 +95,10 @@ function page() {
 
   // Função para alterar a lista de categorias armazenada nos dados do formulário.
   // Passada como props para a tabela de seleção.
-  const categoriaSelecionada = (
-    categorias: {
-      id: string;
-      nome_categoria: string;
-    }[]
-  ) => {
+  const categoriaSelecionada = (categorias: Categorias[]) => {
     form.setValue("categorias", categorias);
   };
+
   return (
     <Form {...form}>
       <form

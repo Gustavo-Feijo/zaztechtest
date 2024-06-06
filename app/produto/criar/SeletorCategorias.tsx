@@ -74,12 +74,7 @@ const columns = [
 function SeletorCategoria({
   categoriaSelecionada,
 }: {
-  categoriaSelecionada: (
-    categorias: {
-      id: string;
-      nome_categoria: string;
-    }[]
-  ) => void;
+  categoriaSelecionada: (categorias: Categorias[]) => void;
 }) {
   // useStates para o funcionamento da tabela.
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -151,7 +146,7 @@ function SeletorCategoria({
     // Utiliza o modelo de seleção para iterar através de cada Row selecionada.
     // Cria objetos contendo id e nome da categoria selecionada a variavel.
     // Altera os dados do formulário através da função passada como prop.
-    const categoriasSel: { id: string; nome_categoria: string }[] = table
+    const categoriasSel: Categorias[] = table
       .getSelectedRowModel()
       .flatRows.map((row) => ({
         id: row.getValue("id") ?? "",
