@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 // Schema para validação dos inputs.
 const formSchema = z.object({

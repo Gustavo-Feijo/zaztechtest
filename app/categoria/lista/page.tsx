@@ -20,7 +20,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Categorias, Produtos } from "@prisma/client";
+import { Categorias } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
