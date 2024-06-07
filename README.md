@@ -23,6 +23,7 @@ Para um setup em nuvem, um banco de dados Postgres Vercel ou NeonDB podem ser ut
 É necessário a criação de uma conta e database, logo em seguida tendo acesso à URL de conexão, que deve ser inserida em um .env.
 
 Um .env na raiz do diretório é requerido para armazenar a url de conexão para o prisma.
+No diretório está como credentials.env (Para deploy em nuvem), renomeie para .env.
 O .env possui apenas isto como variável: DATABASE_URL={URL DE CONEXÃO}.
 
 Em um setup local a instalação de um banco de dados Postgres é necessária, assim como a configuração dos usuários.
