@@ -18,7 +18,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Categorias } from "@prisma/client";
@@ -27,12 +35,16 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
-// Interface para lidar com a seleção das categorias.
-interface SelectCategorias extends Categorias {
+// Interface para lidar com a seleção de produtos.
+export type SelectProdutos = {
+  id: string;
+  nome_produto: string;
   select: boolean;
-}
+  categorias: Categorias[];
+};
+
 // ColumnHelper para a definição do funcionamento da tabela.
-const columnHelper = createColumnHelper<SelectCategorias[]>();
+const columnHelper = createColumnHelper<SelectProdutos[]>();
 const columns = [
   columnHelper.accessor("select", {
     header: ({ table }) => (
@@ -49,19 +61,19 @@ const columns = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Selecionar categoria."
+        aria-label="Selecionar produto."
       />
     ),
     enableSorting: false,
   }),
-  columnHelper.accessor("nome_categoria", {
+  columnHelper.accessor("nome_produto", {
     header: ({ column }) => (
       <Button
         type="button"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Categoria
+        Produto
         <FaArrowRightArrowLeft className="ml-2 h-4 w-4 rotate-90" />
       </Button>
     ),
@@ -73,16 +85,53 @@ const columns = [
         .toLowerCase()
         .startsWith(filterValue.toLowerCase());
     },
-    cell: ({ row }) => <div>{row.getValue("nome_categoria")}</div>,
+    cell: ({ row }) => <div>{row.getValue("nome_produto")}</div>,
+  }),
+  columnHelper.accessor("categorias", {
+    header: "Categorias",
+    cell: (info) => {
+      const value = info.getValue();
+      if (Array.isArray(value) && value.length > 0) {
+        if (value.length == 1) {
+          return (
+            <div className={buttonVariants({ variant: "ghost" })}>
+              {value[0].nome_categoria}
+            </div>
+          );
+        } else
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                Lista
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="p-4">
+                <DropdownMenuLabel className="text-center">
+                  Categorias
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {value.map((categoria: Categorias, index) => {
+                  return (
+                    <DropdownMenuItem key={index}>
+                      <span>{categoria.nome_categoria}</span>
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          );
+      }
+    },
   }),
   columnHelper.accessor("id", {}),
 ];
 
-// Componente contendo uma tabela de categorias, sendo possível realizar a seleção das mesmas.
-function SeletorCategoria({
-  categoriaSelecionada,
+// Componente contendo uma tabela de produtos, sendo possível realizar a seleção dos mesmos.
+function SeletorProdutos({
+  produtoSelecionado,
 }: {
-  categoriaSelecionada: (categorias: Categorias[]) => void;
+  produtoSelecionado: (produtos: SelectProdutos[]) => void;
 }) {
   // useStates para o funcionamento da tabela.
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -115,12 +164,12 @@ function SeletorCategoria({
     },
   });
 
-  //UseEffect para fetching da lista de categorias.
+  //UseEffect para fetching da lista de produtos.
   useEffect(() => {
-    const getCategorias = async () => {
+    const getProdutos = async () => {
       try {
-        // Fetching da lista de categorias.
-        const response = await fetch("/api/categorias", { method: "GET" });
+        // Fetching da lista de produtos.
+        const response = await fetch("/api/produtos", { method: "GET" });
         if (!response.ok) {
           throw new Error(
             `Não foi possível concluir a requisição. Status: ${response.status}`
@@ -145,42 +194,41 @@ function SeletorCategoria({
         setLoading(false);
       }
     };
-    getCategorias();
+    getProdutos();
   }, []);
 
-  // useEffect para fazer o update da seleção de categorias.
+  // useEffect para fazer o update da seleção de produtos.
   // Necessário visto que a implementação no onChange das checkbox apresenta certo delay na atualização dos estados.
   useEffect(() => {
     // Utiliza o modelo de seleção para iterar através de cada Row selecionada.
-    // Cria objetos contendo id e nome da categoria selecionada a variavel.
+    // Cria objetos contendo id, nome do produto e lista de categorias.
     // Altera os dados do formulário através da função passada como prop.
-    const categoriasSel: Categorias[] = table
+    const produtoSel: SelectProdutos[] = table
       .getSelectedRowModel()
       .flatRows.map((row) => ({
         id: row.getValue("id") ?? "",
-        nome_categoria: row.getValue("nome_categoria") ?? "",
+        nome_produto: row.getValue("nome_produto") ?? "",
+        categorias: row.getValue("categorias") ?? "",
+        select: true,
       }));
-    categoriaSelecionada(categoriasSel);
+    produtoSelecionado(produtoSel);
   }, [table.getSelectedRowModel()]);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-around">
       <div className="flex items-center py-4 w-2/3">
         <Input
-          placeholder="Filtrar categorias..."
+          placeholder="Filtrar produtos..."
           value={
-            (table.getColumn("nome_categoria")?.getFilterValue() as string) ??
-            ""
+            (table.getColumn("nome_produto")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table
-              .getColumn("nome_categoria")
-              ?.setFilterValue(event.target.value)
+            table.getColumn("nome_produto")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
       </div>
-      <div className="rounded-md border h-[410px] w-2/3">
+      <div className="rounded-md border h-auto w-full">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -223,7 +271,7 @@ function SeletorCategoria({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {loading ? "LOADING..." : "No Results"}
+                  {loading ? "LOADING..." : "Nenhum resultado."}
                 </TableCell>
               </TableRow>
             )}
@@ -233,7 +281,7 @@ function SeletorCategoria({
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} de{" "}
-          {table.getFilteredRowModel().rows.length} categoria(s) selecionadas.
+          {table.getFilteredRowModel().rows.length} produtos(s) selecionados.
         </div>
         <div className="space-x-2">
           <Button
@@ -259,4 +307,4 @@ function SeletorCategoria({
     </div>
   );
 }
-export default SeletorCategoria;
+export default SeletorProdutos;

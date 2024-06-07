@@ -182,26 +182,32 @@ function page() {
             />
           </div>
           <div className="mb-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                className={buttonVariants({ variant: "ghost" })}
-              >
-                Categorias
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="p-4 max-h-96 overflow-scroll ">
-                <DropdownMenuLabel>Selecionadas</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {form.getValues("categorias") &&
-                  form.getValues("categorias").map((categoria, index) => (
-                    <DropdownMenuItem
-                      className="p-4 justify-between"
-                      key={index}
-                    >
-                      {categoria.nome_categoria}
-                    </DropdownMenuItem>
-                  ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <FormField
+              control={form.control}
+              name="categorias"
+              render={() => (
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    className={buttonVariants({ variant: "ghost" })}
+                  >
+                    Categorias
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="p-4 max-h-96 overflow-scroll ">
+                    <DropdownMenuLabel>Selecionadas</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {form.getValues("categorias") &&
+                      form.getValues("categorias").map((categoria, index) => (
+                        <DropdownMenuItem
+                          className="p-4 justify-between"
+                          key={index}
+                        >
+                          {categoria.nome_categoria}
+                        </DropdownMenuItem>
+                      ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            />
           </div>
           <Button type="submit" variant="default">
             Cadastrar
