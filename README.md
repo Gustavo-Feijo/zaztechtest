@@ -37,6 +37,7 @@ Após a inserção de uma URL de conexão, deve-se rodar os comandos:
 
 * npx prisma generate: Apenas necessário caso vá realizar alterações no código, responsável por gerar o cliente do Prisma.
 * npx prisma migrate dev: Para utilização durante desenvolvimento.
+* npm run dev: Para iniciar servidor local de desenvolvimento.
 * npm run prod: Para deploy. Consiste em: npx prisma generate, npx prisma migrate deploy e next build
 
 ## Estrutura
@@ -50,4 +51,3 @@ app/ categoria,fornecedor e produto são as rotas referentes ao crud. Cada uma t
 components/ Possui os componentes de Shadcnui, provedor de temas, NavBar e seletor de tema.
 
 /prisma apresenta o Schema do bando de dados e um arquivo para seeding.
-
