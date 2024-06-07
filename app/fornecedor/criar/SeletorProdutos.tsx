@@ -141,6 +141,7 @@ function SeletorProdutos({
   // useState contendo os dados recebidos da API e useState para loading.
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   // Instancia da tabela.
   const table = useReactTable({
@@ -184,7 +185,6 @@ function SeletorProdutos({
           action: {
             label: "Recarregar",
             onClick: () => {
-              const router = useRouter();
               router.refresh();
             },
           },

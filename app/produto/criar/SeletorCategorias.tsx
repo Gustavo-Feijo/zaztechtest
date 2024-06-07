@@ -92,6 +92,7 @@ function SeletorCategoria({
   // useState contendo os dados recebidos da API e useState para loading.
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   // Instancia da tabela.
   const table = useReactTable({
@@ -135,7 +136,6 @@ function SeletorCategoria({
           action: {
             label: "Recarregar",
             onClick: () => {
-              const router = useRouter();
               router.refresh();
             },
           },
