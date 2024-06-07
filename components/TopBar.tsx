@@ -2,12 +2,10 @@
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -17,7 +15,7 @@ import { FaHouse } from "react-icons/fa6";
 
 // Component referente a NavBar, contendo os links de navegação através do site.
 function TopBar() {
-  //
+  // Lista de componentes para serem criados na NavBar.
   const componentes = [
     {
       nome: "Produtos",
