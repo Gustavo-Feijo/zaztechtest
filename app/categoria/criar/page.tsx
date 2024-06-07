@@ -23,7 +23,7 @@ const formSchema = z.object({
 });
 
 // Componente referente ao formulário de criação de categorias.
-function page() {
+function Criar() {
   //React-Hook-Form para o formulário.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -95,4 +95,4 @@ function page() {
   );
 }
 
-export default page;
+export default Criar;

@@ -204,7 +204,7 @@ const columns = [
 ];
 
 // Componente contendo uma tabela com as os produtos e suas categorias/fornecedores.
-function page() {
+function Lista() {
   // UseState contendo os dados recebidos via Fetching.
   const [data, setData] = useState<ListaProdutos[]>([]);
   // UseState para apresentar tela de loading.
@@ -348,4 +348,4 @@ function page() {
   );
 }
 
-export default page;
+export default Lista;

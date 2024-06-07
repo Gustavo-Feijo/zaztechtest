@@ -140,7 +140,7 @@ const columns = [
 ];
 
 // Componente contendo uma tabela com os fornecedores.
-function page() {
+function Lista() {
   // UseState contendo os dados recebidos via Fetching.
   const [data, setData] = useState<ListaFornecedores[]>([]);
   // UseState para apresentar tela de loading.
@@ -287,4 +287,4 @@ function page() {
   );
 }
 
-export default page;
+export default Lista;

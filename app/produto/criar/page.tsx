@@ -82,7 +82,7 @@ const onSubmit = async (formData: z.infer<typeof formSchema>) => {
 };
 
 // Component referente ao formulário de envio.
-function page() {
+function Criar() {
   // Hook para criação do formulário baseado no schema criado.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -232,4 +232,4 @@ function page() {
   );
 }
 
-export default page;
+export default Criar;
