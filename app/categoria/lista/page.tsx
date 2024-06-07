@@ -128,8 +128,7 @@ function Lista() {
   const [loading, setLoading] = useState<boolean>(true);
   // UseStates para uso com Tanstack Table.
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-  // Array contendo as colunas da tabela e seu método de filtering.
+  const router = useRouter();
 
   // Inicialização da tabela com os modelos para sorting, filtering e paginação.
   const table = useReactTable({
@@ -163,7 +162,6 @@ function Lista() {
           action: {
             label: "Recarregar",
             onClick: () => {
-              const router = useRouter();
               router.refresh();
             },
           },
