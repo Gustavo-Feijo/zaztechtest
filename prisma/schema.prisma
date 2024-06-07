@@ -15,14 +15,15 @@ datasource db {
 
 model Categorias {
   id             String     @id @default(cuid())
-  nome_categoria String
+  nome_categoria String     @unique
   produtos       Produtos[]
 }
 
 model Produtos {
   id           String         @id @default(cuid())
-  nome_produto String
+  nome_produto String         @unique
   preco        Float
+  estoque      Int            @default(0)
   categorias   Categorias[]
   fornecedores Fornecedores[]
 }
@@ -30,6 +31,8 @@ model Produtos {
 model Fornecedores {
   id                  String     @id @default(cuid())
   nome_empresa        String
-  cnpj                String?
+  cnpj                String?    @unique
   produtos_fornecidos Produtos[]
+
+  @@unique([nome_empresa, cnpj])
 }

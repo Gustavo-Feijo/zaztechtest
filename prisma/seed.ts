@@ -1,4 +1,5 @@
 import { PrismaClient, Produtos } from "@prisma/client";
+import { randomInt } from "crypto";
 
 const prisma = new PrismaClient();
 
@@ -82,6 +83,7 @@ async function main() {
         data: {
           nome_produto: produto.nome_produto,
           preco: produto.preco,
+          estoque: randomInt(100),
           categorias: {
             connect: produto.categoria.map((categoriaId) => ({
               id: categoriaId,

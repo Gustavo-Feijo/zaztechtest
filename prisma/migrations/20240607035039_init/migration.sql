@@ -11,6 +11,7 @@ CREATE TABLE "Produtos" (
     "id" TEXT NOT NULL,
     "nome_produto" TEXT NOT NULL,
     "preco" DOUBLE PRECISION NOT NULL,
+    "estoque" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Produtos_pkey" PRIMARY KEY ("id")
 );
@@ -35,6 +36,18 @@ CREATE TABLE "_FornecedoresToProdutos" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Categorias_nome_categoria_key" ON "Categorias"("nome_categoria");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Produtos_nome_produto_key" ON "Produtos"("nome_produto");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Fornecedores_cnpj_key" ON "Fornecedores"("cnpj");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Fornecedores_nome_empresa_cnpj_key" ON "Fornecedores"("nome_empresa", "cnpj");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_CategoriasToProdutos_AB_unique" ON "_CategoriasToProdutos"("A", "B");
