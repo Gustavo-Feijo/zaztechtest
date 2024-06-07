@@ -121,7 +121,7 @@ const columns = [
 ];
 
 // Componente contendo uma tabela com as categorias.
-function page() {
+function Lista() {
   // UseState contendo os dados recebidos via Fetching.
   const [data, setData] = useState<ListaCategorias[]>([]);
   // UseState para apresentar tela de loading.
@@ -271,4 +271,4 @@ function page() {
   );
 }
 
-export default page;
+export default Lista;
